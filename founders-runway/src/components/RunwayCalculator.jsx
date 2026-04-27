@@ -108,6 +108,7 @@ export default function RunwayCalculator() {
   const [currency, setCurrency] = useState(CURRENCIES[0])
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
   const dropdownRef = useRef(null)
+  const resultsRef = useRef(null)
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -202,6 +203,13 @@ export default function RunwayCalculator() {
   const isProfitable = isValid && revenueNum >= burnNum && revenueNum > 0
   const isZeroBurn = isValid && burnNum === 0 && cashNum > 0 && revenueNum === 0
   const isZeroCash = isValid && cashNum === 0
+
+  // Auto-scroll to results on mobile when they first appear
+  useEffect(() => {
+    if (runway !== null && resultsRef.current && window.innerWidth < 1024) {
+      resultsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [runway !== null])
 
   return (
     <section id="calculator" className="relative py-12 sm:py-24 min-h-screen bg-[#0a0514]">
@@ -400,9 +408,9 @@ export default function RunwayCalculator() {
           </div>
 
           {/* RIGHT COLUMN: Results & Insights */}
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-8" ref={resultsRef}>
             {runway !== null && statusConfig ? (
-              <div className="space-y-8 animate-fade-up">
+              <div className="animate-fade-up">
                 <ResultCard
                   runway={runway}
                   status={status}

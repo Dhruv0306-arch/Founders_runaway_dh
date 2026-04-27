@@ -224,28 +224,32 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
 
         {/* ── Right: Metrics + Meter + Timeline ──────────────────── */}
         <div className="space-y-7">
-          {/* Key metric chips */}
-          <div className={`grid ${revenueNum > 0 ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-3'} gap-3`}>
+          {/* Key metrics — flat stats with dividers */}
+          <div className={`flex flex-wrap items-center gap-0`}>
             {(revenueNum > 0
               ? [
-                  { label: 'Cash on Hand', value: formatCurrencyShort(cashNum, currency), icon: <Wallet className="w-4 h-4 text-emerald-400" /> },
-                  { label: 'Gross Burn', value: formatCurrencyShort(burnNum, currency), icon: <Flame className="w-4 h-4 text-ecell-orange" /> },
-                  { label: 'Revenue', value: formatCurrencyShort(revenueNum, currency), icon: <TrendingUp className="w-4 h-4 text-emerald-400" /> },
-                  { label: 'Net Burn', value: formatCurrencyShort(netBurn, currency), icon: <LineChart className="w-4 h-4 text-ecell-lavender" /> },
+                  { label: 'Cash on Hand', value: formatCurrencyShort(cashNum, currency), icon: <Wallet className="w-3.5 h-3.5 text-emerald-400" /> },
+                  { label: 'Gross Burn', value: formatCurrencyShort(burnNum, currency), icon: <Flame className="w-3.5 h-3.5 text-ecell-orange" /> },
+                  { label: 'Revenue', value: formatCurrencyShort(revenueNum, currency), icon: <TrendingUp className="w-3.5 h-3.5 text-emerald-400" /> },
+                  { label: 'Net Burn', value: formatCurrencyShort(netBurn, currency), icon: <LineChart className="w-3.5 h-3.5 text-ecell-lavender" /> },
                 ]
               : [
-                  { label: 'Cash on Hand', value: formatCurrencyShort(cashNum, currency), icon: <Wallet className="w-4 h-4 text-emerald-400" /> },
-                  { label: 'Monthly Burn', value: formatCurrencyShort(burnNum, currency), icon: <Flame className="w-4 h-4 text-ecell-orange" /> },
-                  { label: 'Annual Burn', value: formatCurrencyShort(annualBurn, currency), icon: <CalendarDays className="w-4 h-4 text-ecell-lavender" /> },
+                  { label: 'Cash on Hand', value: formatCurrencyShort(cashNum, currency), icon: <Wallet className="w-3.5 h-3.5 text-emerald-400" /> },
+                  { label: 'Monthly Burn', value: formatCurrencyShort(burnNum, currency), icon: <Flame className="w-3.5 h-3.5 text-ecell-orange" /> },
+                  { label: 'Annual Burn', value: formatCurrencyShort(annualBurn, currency), icon: <CalendarDays className="w-3.5 h-3.5 text-ecell-lavender" /> },
                 ]
-            ).map(({ label, value, icon }) => (
-              <div
-                key={label}
-                className="bg-ecell-purple/10 border border-ecell-purple/20 rounded-xl p-3 text-center"
-              >
-                <div className="flex justify-center mb-2">{icon}</div>
-                <div className="font-mono font-semibold text-white/90 text-sm">{value}</div>
-                <div className="text-[10px] text-ecell-muted/60 mt-1 uppercase tracking-widest leading-tight">{label}</div>
+            ).map(({ label, value, icon }, idx, arr) => (
+              <div key={label} className="flex items-center">
+                <div className="px-4 py-2 text-center">
+                  <div className="flex items-center justify-center gap-1.5 mb-1">
+                    {icon}
+                    <span className="font-mono font-bold text-white text-sm">{value}</span>
+                  </div>
+                  <div className="text-[9px] text-ecell-muted/50 uppercase tracking-widest">{label}</div>
+                </div>
+                {idx < arr.length - 1 && (
+                  <div className="w-px h-8 bg-white/5 shrink-0" />
+                )}
               </div>
             ))}
           </div>
@@ -258,7 +262,6 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
         </div>
       </div>
 
-      {/* ── Advice section ────────────────────────────────────────── */}
       {advice && advice.length > 0 && (
         <div className="mt-8 pt-8 border-t border-white/5">
           <div className="flex items-center gap-2 mb-5">
@@ -267,13 +270,12 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
               Strategic Advice
             </h3>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
             {advice.map((tip, i) => (
               <div
                 key={i}
-                className="flex items-start gap-3 p-4 rounded-xl bg-[#0a0514] border border-white/5"
+                className={`border-l-2 pl-4 py-1 ${statusConfig.borderColor}`}
               >
-                <ChevronRight className={`w-4 h-4 mt-0.5 shrink-0 ${statusConfig.textColor}`} />
                 <span className="text-xs text-ecell-muted/80 leading-relaxed">{tip}</span>
               </div>
             ))}
@@ -283,7 +285,7 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
 
       {/* ── Burn rate insight footer ──────────────────────────────── */}
       {burnNum > 0 && !isInfinite && (
-        <div className="mt-6 pt-4 border-t border-ecell-purple/20 grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="mt-6 pt-4 border-t border-white/5 grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
             { label: 'Weekly Net Burn', value: formatCurrencyShort(netBurn / 4.33, currency) },
             { label: 'Daily Net Burn', value: formatCurrencyShort(netBurn / 30.44, currency) },

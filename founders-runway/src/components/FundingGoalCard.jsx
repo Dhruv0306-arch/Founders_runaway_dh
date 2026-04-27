@@ -53,22 +53,22 @@ export default function FundingGoalCard({ cashNum, burnNum, revenueNum = 0, curr
             </div>
           </div>
 
-          <div className="w-full sm:w-auto shrink-0 bg-[#0a0514] border border-white/5 rounded-xl p-5 text-center min-w-[180px]">
+          <div className="w-full sm:w-auto shrink-0 border-l-2 border-ecell-orange/30 pl-6 py-2 text-center sm:text-left min-w-[160px]">
             <p className="text-[10px] text-ecell-muted/60 uppercase tracking-widest mb-1.5">
               Shortfall to Raise
             </p>
             {isFunded ? (
-              <div className="flex items-center justify-center gap-1.5 text-emerald-400 mt-2">
+              <div className="flex items-center justify-center sm:justify-start gap-1.5 text-emerald-400">
                 <CheckCircle2 className="w-5 h-5" />
                 <span className="text-xl font-bebas uppercase tracking-wide mt-1">Fully Funded</span>
               </div>
             ) : (
               <>
-                <p className="text-2xl font-mono font-bold text-ecell-orange leading-none mb-1.5">
+                <p className="text-2xl font-mono font-bold text-ecell-orange leading-none mb-1">
                   {formatCurrencyShort(shortfall, currency)}
                 </p>
                 <p className="text-[11px] text-ecell-muted/40">
-                  Reserve: <span className="font-mono text-ecell-muted/60">{formatCurrencyShort(requiredCash, currency)}</span>
+                  Total needed: <span className="font-mono text-ecell-muted/60">{formatCurrencyShort(requiredCash, currency)}</span>
                 </p>
               </>
             )}
