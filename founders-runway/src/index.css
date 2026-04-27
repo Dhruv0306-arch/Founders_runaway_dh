@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background-color: #020617;
+    color: white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Remove number input spinners */
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #020617;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+  }
+}
+
+@layer utilities {
+  /* Subtle dot grid background */
+  .bg-dot-pattern {
+    background-image: radial-gradient(circle, rgba(6, 182, 212, 0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Cyan → Emerald gradient text */
+  .text-gradient-cyan {
+    background: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Purple accent gradient text */
+  .text-gradient-purple {
+    background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Status glow shadows */
+  .glow-safe {
+    box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2), 0 8px 40px rgba(16, 185, 129, 0.08);
+  }
+  .glow-warning {
+    box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.2), 0 8px 40px rgba(245, 158, 11, 0.08);
+  }
+  .glow-danger {
+    box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2), 0 8px 40px rgba(239, 68, 68, 0.12);
+  }
+
+  /* Top border shimmer */
+  .border-top-cyan {
+    border-top: 1px solid transparent;
+    background-image: linear-gradient(#0f172a, #0f172a),
+      linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.4), transparent);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+}
+
+/* Animated entrance for result sections */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Progress bar fill animation */
+@keyframes fillBar {
+  from { width: 0%; }
+}
+
+.animate-fill-bar {
+  animation: fillBar 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Danger pulse */
+@keyframes dangerPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.animate-danger-pulse {
+  animation: dangerPulse 1.5s ease-in-out infinite;
+}
