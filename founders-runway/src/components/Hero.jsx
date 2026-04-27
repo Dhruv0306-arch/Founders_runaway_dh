@@ -61,7 +61,6 @@ export default function Hero() {
           className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-ecell-orange to-ecell-purple text-white font-bold text-sm hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-2xl shadow-ecell-orange/25"
         >
           <span>Calculate Your Runway</span>
-          <span className="text-base">→</span>
         </Link>
       </div>
     </section>

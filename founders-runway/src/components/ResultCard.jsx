@@ -1,3 +1,4 @@
+import { Wallet, Flame, TrendingUp, LineChart, Lightbulb, ChevronRight, CalendarDays } from 'lucide-react'
 import { formatMonths, formatDays, formatCurrencyShort, formatCurrencyFull } from '../utils/formatters.js'
 import RunwayChart from './RunwayChart.jsx'
 
@@ -119,20 +120,7 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
       : 'You\'re in good shape'
 
   return (
-    <div
-      className={`relative bg-ecell-dark rounded-2xl border p-6 sm:p-10 mb-6 overflow-hidden transition-all duration-500 ${statusConfig.borderColor} ${statusConfig.glowClass}`}
-    >
-      {/* Status top border shimmer */}
-      <div
-        aria-hidden="true"
-        className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent ${
-          status === 'safe'
-            ? 'via-emerald-500/70'
-            : status === 'warning'
-            ? 'via-amber-500/70'
-            : 'via-red-500/70'
-        } to-transparent`}
-      />
+    <div className="relative bg-[#120a2e]/60 rounded-2xl border border-white/5 p-6 sm:p-10 mb-6 overflow-hidden">
 
       <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-8 lg:gap-12">
         {/* ── Left: Big runway number ─────────────────────────────── */}
@@ -189,24 +177,24 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
           <div className={`grid ${revenueNum > 0 ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-3'} gap-3`}>
             {(revenueNum > 0
               ? [
-                  { label: 'Cash on Hand', value: formatCurrencyShort(cashNum, currency), icon: '💵' },
-                  { label: 'Gross Burn', value: formatCurrencyShort(burnNum, currency), icon: '🔥' },
-                  { label: 'Revenue', value: formatCurrencyShort(revenueNum, currency), icon: '💸' },
-                  { label: 'Net Burn', value: formatCurrencyShort(netBurn, currency), icon: '📉' },
+                  { label: 'Cash on Hand', value: formatCurrencyShort(cashNum, currency), icon: <Wallet className="w-4 h-4 text-emerald-400" /> },
+                  { label: 'Gross Burn', value: formatCurrencyShort(burnNum, currency), icon: <Flame className="w-4 h-4 text-ecell-orange" /> },
+                  { label: 'Revenue', value: formatCurrencyShort(revenueNum, currency), icon: <TrendingUp className="w-4 h-4 text-emerald-400" /> },
+                  { label: 'Net Burn', value: formatCurrencyShort(netBurn, currency), icon: <LineChart className="w-4 h-4 text-ecell-lavender" /> },
                 ]
               : [
-                  { label: 'Cash on Hand', value: formatCurrencyShort(cashNum, currency), icon: '💵' },
-                  { label: 'Monthly Burn', value: formatCurrencyShort(burnNum, currency), icon: '🔥' },
-                  { label: 'Annual Burn', value: formatCurrencyShort(annualBurn, currency), icon: '📅' },
+                  { label: 'Cash on Hand', value: formatCurrencyShort(cashNum, currency), icon: <Wallet className="w-4 h-4 text-emerald-400" /> },
+                  { label: 'Monthly Burn', value: formatCurrencyShort(burnNum, currency), icon: <Flame className="w-4 h-4 text-ecell-orange" /> },
+                  { label: 'Annual Burn', value: formatCurrencyShort(annualBurn, currency), icon: <CalendarDays className="w-4 h-4 text-ecell-lavender" /> },
                 ]
             ).map(({ label, value, icon }) => (
               <div
                 key={label}
                 className="bg-ecell-purple/10 border border-ecell-purple/20 rounded-xl p-3 text-center"
               >
-                <div className="text-base mb-1">{icon}</div>
-                <div className="font-mono font-semibold text-white text-sm">{value}</div>
-                <div className="text-[10px] text-ecell-muted/60 mt-0.5 leading-tight">{label}</div>
+                <div className="flex justify-center mb-2">{icon}</div>
+                <div className="font-mono font-semibold text-white/90 text-sm">{value}</div>
+                <div className="text-[10px] text-ecell-muted/60 mt-1 uppercase tracking-widest leading-tight">{label}</div>
               </div>
             ))}
           </div>
@@ -221,23 +209,21 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
 
       {/* ── Advice section ────────────────────────────────────────── */}
       {advice && advice.length > 0 && (
-        <div className="mt-8 pt-8 border-t border-ecell-purple/20">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-base">💡</span>
-            <h3 className="text-xs font-bold text-ecell-lavender uppercase tracking-widest">
-              Strategic Advice for Your Situation
+        <div className="mt-8 pt-8 border-t border-white/5">
+          <div className="flex items-center gap-2 mb-5">
+            <Lightbulb className="w-4 h-4 text-ecell-lavender" />
+            <h3 className="text-xs font-bold text-white uppercase tracking-widest">
+              Strategic Advice
             </h3>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {advice.map((tip, i) => (
               <div
                 key={i}
-                className={`flex items-start gap-2.5 p-3.5 rounded-xl border ${statusConfig.bgColor} ${statusConfig.borderColor}`}
+                className="flex items-start gap-3 p-4 rounded-xl bg-[#0a0514] border border-white/5"
               >
-                <span className={`text-xs ${statusConfig.textColor} mt-0.5 shrink-0 font-bold`}>
-                  →
-                </span>
-                <span className="text-sm text-ecell-muted leading-relaxed">{tip}</span>
+                <ChevronRight className={`w-4 h-4 mt-0.5 shrink-0 ${statusConfig.textColor}`} />
+                <span className="text-xs text-ecell-muted/80 leading-relaxed">{tip}</span>
               </div>
             ))}
           </div>

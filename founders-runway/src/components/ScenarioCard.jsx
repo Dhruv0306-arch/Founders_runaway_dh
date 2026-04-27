@@ -1,3 +1,4 @@
+import { Lightbulb, ChevronRight, BarChart, Target } from 'lucide-react'
 import { formatMonths, formatCurrencyShort } from '../utils/formatters.js'
 import { getReductionTips, getStatusConfig } from '../utils/calculations.js'
 
@@ -14,13 +15,13 @@ function ScenarioRow({ scenario, baseRunway, currency }) {
 
   return (
     <div
-      className={`p-4 sm:p-5 rounded-xl border transition-all duration-200 ${config.bgColor} ${config.borderColor}`}
+      className="p-4 sm:p-5 rounded-xl border border-white/5 bg-[#0a0514]/50 transition-all duration-200 hover:border-white/10"
     >
       <div className="flex items-start justify-between gap-4 mb-4">
         {/* Left: badge + description */}
         <div className="flex items-center gap-3">
           <div
-            className={`shrink-0 w-12 h-12 rounded-xl flex items-center justify-center border ${config.bgColor} ${config.borderColor}`}
+            className={`shrink-0 w-12 h-12 rounded-xl flex items-center justify-center border border-white/5 bg-[#120a2e]`}
           >
             <span className={`font-bebas text-lg ${config.textColor}`}>-{reduction}%</span>
           </div>
@@ -82,18 +83,18 @@ function ScenarioRow({ scenario, baseRunway, currency }) {
 
       {/* Nested Cost-Cutting Tips */}
       {tips.length > 0 && (
-        <div className={`mt-4 pt-4 border-t border-black/20`}>
-          <div className="flex items-center gap-1.5 mb-2.5">
-            <span className="text-xs">💡</span>
+        <div className="mt-5 pt-4 border-t border-white/5">
+          <div className="flex items-center gap-1.5 mb-3">
+            <Lightbulb className="w-3.5 h-3.5 text-ecell-muted/60" />
             <span className={`text-[10px] font-bold tracking-widest uppercase ${config.textColor}`}>
               {reduction}% Optimization Ideas
             </span>
           </div>
-          <ul className="space-y-1.5 pl-1">
+          <ul className="space-y-2 pl-1">
             {tips.map((tip, idx) => (
               <li key={idx} className="flex items-start gap-2">
-                <span className={`text-[10px] mt-0.5 font-bold opacity-70 ${config.textColor}`}>›</span>
-                <span className="text-xs text-ecell-muted/90 leading-snug">{tip}</span>
+                <ChevronRight className={`w-3.5 h-3.5 mt-0.5 shrink-0 opacity-70 ${config.textColor}`} />
+                <span className="text-xs text-ecell-muted/80 leading-snug">{tip}</span>
               </li>
             ))}
           </ul>
@@ -110,17 +111,12 @@ export default function ScenarioCard({ scenarios, baseRunway, cashNum, burnNum, 
   const enriched = scenarios.map((s) => ({ ...s, burnNum }))
 
   return (
-    <div className="relative bg-ecell-dark rounded-2xl border border-ecell-purple/15 p-6 sm:p-10 mb-6 overflow-hidden">
-      {/* Top shimmer — purple for visual distinction */}
-      <div
-        aria-hidden="true"
-        className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-violet-500/40 to-transparent"
-      />
+    <div className="relative bg-[#120a2e]/60 rounded-2xl border border-white/5 p-6 sm:p-10 mb-6 overflow-hidden">
 
       {/* Header */}
       <div className="flex items-start gap-3 mb-8">
-        <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center shrink-0">
-          <span className="text-base">📊</span>
+        <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+          <BarChart className="w-4 h-4 text-ecell-lavender" />
         </div>
         <div>
           <h3 className="font-bebas text-2xl text-white leading-none">
@@ -134,9 +130,9 @@ export default function ScenarioCard({ scenarios, baseRunway, cashNum, burnNum, 
       </div>
 
       {/* Base / current state reference */}
-      <div className="flex items-center gap-4 p-4 rounded-xl bg-ecell-purple/10 border border-ecell-purple/20 mb-4">
-        <div className="w-10 h-10 rounded-xl bg-ecell-purple/40 flex items-center justify-center shrink-0">
-          <span className="text-sm">📌</span>
+      <div className="flex items-center gap-4 p-4 rounded-xl bg-[#0a0514] border border-white/5 mb-6">
+        <div className="w-10 h-10 rounded-xl bg-[#120a2e] flex items-center justify-center shrink-0">
+          <Target className="w-4 h-4 text-ecell-muted/60" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-white">Current State (Baseline)</p>
