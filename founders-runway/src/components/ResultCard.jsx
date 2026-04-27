@@ -228,7 +228,7 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
                 <span className={`text-xs ${statusConfig.textColor} mt-0.5 shrink-0 font-bold`}>
                   →
                 </span>
-                <span className="text-xs text-slate-300 leading-relaxed">{tip}</span>
+                <span className="text-sm text-slate-300 leading-relaxed">{tip}</span>
               </div>
             ))}
           </div>

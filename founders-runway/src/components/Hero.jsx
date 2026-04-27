@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-dot-pattern">
@@ -54,19 +56,13 @@ export default function Hero() {
         </div>
 
         {/* Primary CTA */}
-        <a
-          href="#calculator"
+        <Link
+          to="/calculator"
           className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 text-white font-bold text-sm hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-2xl shadow-cyan-500/25"
         >
           <span>Calculate Your Runway</span>
-          <span className="text-base">↓</span>
-        </a>
-
-        {/* Subtle scroll hint */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
-          <div className="w-px h-8 bg-gradient-to-b from-transparent to-slate-400" />
-          <span className="text-[10px] text-slate-500 tracking-widest uppercase">Scroll</span>
-        </div>
+          <span className="text-base">→</span>
+        </Link>
       </div>
     </section>
   )

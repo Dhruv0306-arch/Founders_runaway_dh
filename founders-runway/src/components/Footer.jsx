@@ -16,24 +16,14 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Center tagline */}
-          <p className="text-xs text-slate-700 text-center leading-relaxed">
-            Built for{' '}
-            <span className="text-slate-600">E-Cell IIT Task Submission</span>
-            {' '}·{' '}
-            <span className="text-slate-600">Frontend only</span>
-            {' '}·{' '}
-            <span className="text-slate-600">No data stored</span>
-          </p>
-
           {/* Right */}
-          <p className="text-[11px] text-slate-800 font-mono">
+          <p className="text-[11px] text-slate-500 font-mono">
             © {year} · Cash is King
           </p>
         </div>
 
         {/* Disclaimer */}
-        <p className="mt-6 text-center text-[10px] text-slate-800 max-w-lg mx-auto leading-relaxed">
+        <p className="mt-6 text-center text-sm text-slate-400 max-w-lg mx-auto leading-relaxed">
           This tool is for educational and planning purposes only. It does not constitute
           financial advice. Always consult a qualified financial professional for
           investment decisions.
