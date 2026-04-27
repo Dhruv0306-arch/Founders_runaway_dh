@@ -1,4 +1,5 @@
 import { formatMonths, formatDays, formatCurrencyShort, formatCurrencyFull } from '../utils/formatters.js'
+import RunwayChart from './RunwayChart.jsx'
 
 // ─── Runway Meter ─────────────────────────────────────────────────────────────
 
@@ -101,13 +102,13 @@ function CashTimeline({ cashNum, burnNum, runway, currency }) {
 
 // ─── Result Card (main export) ───────────────────────────────────────────────
 
-export default function ResultCard({ runway, status, statusConfig, cashNum, burnNum, advice, currency }) {
+export default function ResultCard({ runway, status, statusConfig, cashNum, burnNum, revenueNum = 0, advice, currency }) {
   const isInfinite = runway === Infinity
   const runwayMonths = formatMonths(runway)
   const runwayDays = formatDays(runway)
 
-  // Annual burn figure
-  const annualBurn = burnNum * 12
+  const netBurn = Math.max(0, burnNum - revenueNum)
+  const annualBurn = netBurn * 12
 
   // Months label for urgency
   const urgencyLabel =
@@ -185,12 +186,20 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
         {/* ── Right: Metrics + Meter + Timeline ──────────────────── */}
         <div className="space-y-7">
           {/* Key metric chips */}
-          <div className="grid grid-cols-3 gap-3">
-            {[
-              { label: 'Cash on Hand', value: formatCurrencyShort(cashNum, currency), icon: '💵' },
-              { label: 'Monthly Burn', value: formatCurrencyShort(burnNum, currency), icon: '🔥' },
-              { label: 'Annual Burn', value: formatCurrencyShort(annualBurn, currency), icon: '📅' },
-            ].map(({ label, value, icon }) => (
+          <div className={`grid ${revenueNum > 0 ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-3'} gap-3`}>
+            {(revenueNum > 0
+              ? [
+                  { label: 'Cash on Hand', value: formatCurrencyShort(cashNum, currency), icon: '💵' },
+                  { label: 'Gross Burn', value: formatCurrencyShort(burnNum, currency), icon: '🔥' },
+                  { label: 'Revenue', value: formatCurrencyShort(revenueNum, currency), icon: '💸' },
+                  { label: 'Net Burn', value: formatCurrencyShort(netBurn, currency), icon: '📉' },
+                ]
+              : [
+                  { label: 'Cash on Hand', value: formatCurrencyShort(cashNum, currency), icon: '💵' },
+                  { label: 'Monthly Burn', value: formatCurrencyShort(burnNum, currency), icon: '🔥' },
+                  { label: 'Annual Burn', value: formatCurrencyShort(annualBurn, currency), icon: '📅' },
+                ]
+            ).map(({ label, value, icon }) => (
               <div
                 key={label}
                 className="bg-ecell-purple/10 border border-ecell-purple/20 rounded-xl p-3 text-center"
@@ -205,8 +214,8 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
           {/* Runway meter */}
           <RunwayMeter runway={runway} status={status} statusConfig={statusConfig} />
 
-          {/* Cash timeline breakdown */}
-          <CashTimeline cashNum={cashNum} burnNum={burnNum} runway={runway} currency={currency} />
+          {/* Runway Chart Visualization */}
+          <RunwayChart cashNum={cashNum} burnNum={burnNum} revenueNum={revenueNum} currency={currency} />
         </div>
       </div>
 
@@ -239,14 +248,14 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
       {burnNum > 0 && !isInfinite && (
         <div className="mt-6 pt-4 border-t border-ecell-purple/20 grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
-            { label: 'Weekly Burn', value: formatCurrencyShort(burnNum / 4.33, currency) },
-            { label: 'Daily Burn', value: formatCurrencyShort(burnNum / 30.44, currency) },
-            { label: 'Cost Per Day', value: formatCurrencyFull(burnNum / 30.44, currency) },
+            { label: 'Weekly Net Burn', value: formatCurrencyShort(netBurn / 4.33, currency) },
+            { label: 'Daily Net Burn', value: formatCurrencyShort(netBurn / 30.44, currency) },
+            { label: 'Net Cost Per Day', value: formatCurrencyFull(netBurn / 30.44, currency) },
             {
               label: 'Burn Ratio',
               value:
                 cashNum > 0
-                  ? `${((burnNum / cashNum) * 100).toFixed(1)}%/mo`
+                  ? `${((netBurn / cashNum) * 100).toFixed(1)}%/mo`
                   : 'N/A',
             },
           ].map(({ label, value }) => (

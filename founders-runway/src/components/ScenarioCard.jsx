@@ -1,4 +1,5 @@
 import { formatMonths, formatCurrencyShort } from '../utils/formatters.js'
+import { getReductionTips, getStatusConfig } from '../utils/calculations.js'
 
 // ─── Individual scenario row ─────────────────────────────────────────────────
 
@@ -8,6 +9,8 @@ function ScenarioRow({ scenario, baseRunway, currency }) {
 
   const basePct = Math.min((baseRunway / 24) * 100, 100)
   const newPct = isInfinite ? 100 : Math.min((newRunway / 24) * 100, 100)
+  
+  const tips = getReductionTips(reduction)
 
   return (
     <div
@@ -76,13 +79,33 @@ function ScenarioRow({ scenario, baseRunway, currency }) {
           </span>
         </div>
       </div>
+
+      {/* Nested Cost-Cutting Tips */}
+      {tips.length > 0 && (
+        <div className={`mt-4 pt-4 border-t border-black/20`}>
+          <div className="flex items-center gap-1.5 mb-2.5">
+            <span className="text-xs">💡</span>
+            <span className={`text-[10px] font-bold tracking-widest uppercase ${config.textColor}`}>
+              {reduction}% Optimization Ideas
+            </span>
+          </div>
+          <ul className="space-y-1.5 pl-1">
+            {tips.map((tip, idx) => (
+              <li key={idx} className="flex items-start gap-2">
+                <span className={`text-[10px] mt-0.5 font-bold opacity-70 ${config.textColor}`}>›</span>
+                <span className="text-xs text-ecell-muted/90 leading-snug">{tip}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   )
 }
 
 // ─── Scenario Card (main export) ─────────────────────────────────────────────
 
-export default function ScenarioCard({ scenarios, baseRunway, cashNum, burnNum, currency }) {
+export default function ScenarioCard({ scenarios, baseRunway, cashNum, burnNum, revenueNum = 0, currency, status }) {
   // Attach burnNum to each scenario for the savings calculation
   const enriched = scenarios.map((s) => ({ ...s, burnNum }))
 
@@ -118,7 +141,7 @@ export default function ScenarioCard({ scenarios, baseRunway, cashNum, burnNum, 
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-white">Current State (Baseline)</p>
           <p className="text-xs text-ecell-muted/80 truncate">
-            {formatCurrencyShort(burnNum, currency)}/mo burn · no changes
+            {formatCurrencyShort(burnNum, currency)}/mo {revenueNum > 0 ? 'gross ' : ''}burn · no changes
           </p>
         </div>
         <div className="text-right shrink-0">
@@ -137,7 +160,7 @@ export default function ScenarioCard({ scenarios, baseRunway, cashNum, burnNum, 
         ))}
       </div>
 
-      <p className="text-[10px] text-ecell-muted/60 mt-5 text-center tracking-wide">
+      <p className="text-[10px] text-ecell-muted/60 mt-6 text-center tracking-wide">
         * Assumes cash on hand ({formatCurrencyShort(cashNum, currency)}) and revenue remain constant.
         Scenarios model cost-cutting only.
       </p>

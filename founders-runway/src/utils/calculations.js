@@ -13,10 +13,11 @@
  * Returns Infinity if burnRate is 0 (cash lasts forever).
  * Returns 0 if cash is 0.
  */
-export function calculateRunway(cash, burnRate) {
+export function calculateRunway(cash, burnRate, revenue = 0) {
   if (cash <= 0) return 0
-  if (burnRate <= 0) return Infinity
-  return cash / burnRate
+  const netBurn = burnRate - revenue
+  if (netBurn <= 0) return Infinity
+  return cash / netBurn
 }
 
 /**
@@ -81,16 +82,17 @@ export function getStatusConfig(status) {
 /**
  * Calculate 10%, 20%, 30% burn reduction scenarios.
  */
-export function getScenarios(cash, burnRate) {
-  const baseRunway = calculateRunway(cash, burnRate)
+export function getScenarios(cash, burnRate, revenue = 0) {
+  const baseRunway = calculateRunway(cash, burnRate, revenue)
   return [10, 20, 30].map((reduction) => {
-    const newBurn = burnRate * (1 - reduction / 100)
-    const newRunway = calculateRunway(cash, newBurn)
+    const newGrossBurn = burnRate * (1 - reduction / 100)
+    const newNetBurn = newGrossBurn - revenue
+    const newRunway = newNetBurn <= 0 ? Infinity : cash / newNetBurn
     const extraMonths = newRunway === Infinity ? Infinity : newRunway - baseRunway
     const status = getRunwayStatus(newRunway)
     return {
       reduction,
-      newBurn,
+      newBurn: newGrossBurn,
       newRunway,
       extraMonths,
       status,
@@ -124,4 +126,28 @@ export function getStartupAdvice(status) {
     ],
   }
   return advice[status] || advice.safe
+}
+
+/**
+ * Tactical cost-cutting tips based on reduction percentage.
+ */
+export function getReductionTips(percentage) {
+  const tips = {
+    10: [
+      'Remove unused SaaS seats and idle software licenses.',
+      'Renegotiate monthly software tiers to annual plans.',
+      'Reduce low-priority or experimental tool spending.',
+    ],
+    20: [
+      'Optimize AWS/Cloud usage and implement auto-scaling.',
+      'Pause low-ROI marketing campaigns and ad spend.',
+      'Consolidate duplicate vendor contracts.',
+    ],
+    30: [
+      'Delay non-essential hiring and freeze contractor spend.',
+      'Cut major non-critical operational expenses immediately.',
+      'Restructure operational spending and renegotiate large contracts.',
+    ],
+  }
+  return tips[percentage] || []
 }
