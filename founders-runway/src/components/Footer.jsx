@@ -15,10 +15,7 @@ export default function Footer() {
               <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-ecell-orange to-ecell-purple flex items-center justify-center">
                 <span className="text-[10px] font-bold text-white">FR</span>
               </div>
-              <div>
-                <span className="text-sm font-semibold text-white">Founder's Runway</span>
-                <span className="ml-2 text-[10px] text-ecell-muted/40 font-mono">v1.0</span>
-              </div>
+              <span className="text-sm font-semibold text-white">Founder's Runway</span>
             </div>
             <p className="text-xs text-ecell-muted/50 max-w-md leading-relaxed">
               This tool is for educational and planning purposes only. It does not constitute
@@ -26,7 +23,7 @@ export default function Footer() {
               investment decisions.
             </p>
             <p className="text-[10px] text-ecell-muted/30 mt-4 font-mono">
-              &copy; {year} Founder's Runway. Built for startups.
+              &copy; {year} Founder's Runway.
             </p>
           </div>
 
