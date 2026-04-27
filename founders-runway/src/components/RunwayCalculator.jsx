@@ -12,7 +12,7 @@ import { formatCurrencyFull, parseInputValue } from '../utils/formatters.js'
 
 // ─── Input Field ─────────────────────────────────────────────────────────────
 
-function InputField({ label, icon, value, onChange, onBlur, error, hint, placeholder, suffix }) {
+function InputField({ label, icon, value, onChange, onBlur, error, hint, placeholder, suffix, currency = '$' }) {
   const [focused, setFocused] = useState(false)
 
   // Format with commas for display
@@ -38,7 +38,7 @@ function InputField({ label, icon, value, onChange, onBlur, error, hint, placeho
             : 'border-ecell-purple/20 bg-ecell-dark/40 hover:border-ecell-purple/40'
         }`}
       >
-        <span className="pl-4 text-ecell-lavender font-mono text-sm font-medium select-none">$</span>
+        <span className="pl-4 text-ecell-lavender font-mono text-sm font-medium select-none">{currency}</span>
         <input
           type="text"
           inputMode="decimal"
@@ -86,6 +86,7 @@ function InputField({ label, icon, value, onChange, onBlur, error, hint, placeho
 // ─── Main Calculator ──────────────────────────────────────────────────────────
 
 export default function RunwayCalculator() {
+  const [currency, setCurrency] = useState('$')
   const [cashRaw, setCashRaw] = useState('')
   const [burnRaw, setBurnRaw] = useState('')
   const [cashError, setCashError] = useState('')
@@ -165,6 +166,35 @@ export default function RunwayCalculator() {
           </p>
         </div>
 
+        {/* ── Currency Toggle ───────────────────────────────────────────── */}
+        <div className="flex justify-center mb-8">
+          <div className="inline-flex items-center bg-ecell-dark/80 p-1.5 rounded-xl border border-ecell-purple/30 shadow-lg">
+            <button
+              onClick={() => setCurrency('$')}
+              className={`px-6 py-2 rounded-lg text-sm font-bold tracking-wide transition-all duration-200 ${
+                currency === '$'
+                  ? 'bg-[#FD562A] text-white shadow-md scale-[1.02]'
+                  : 'text-ecell-muted hover:text-white hover:bg-ecell-purple/20'
+              }`}
+            >
+              $ Dollars
+            </button>
+
+            <div className="w-px h-6 bg-ecell-purple/30 mx-2 shrink-0" />
+
+            <button
+              onClick={() => setCurrency('₹')}
+              className={`px-6 py-2 rounded-lg text-sm font-bold tracking-wide transition-all duration-200 ${
+                currency === '₹'
+                  ? 'bg-[#FD562A] text-white shadow-md scale-[1.02]'
+                  : 'text-ecell-muted hover:text-white hover:bg-ecell-purple/20'
+              }`}
+            >
+              ₹ Rupees
+            </button>
+          </div>
+        </div>
+
         {/* ── Input Card ──────────────────────────────────────────────── */}
         <div className="relative bg-ecell-dark rounded-2xl border border-ecell-purple/15 p-6 sm:p-10 mb-6 overflow-hidden">
           {/* Top shimmer line */}
@@ -184,8 +214,9 @@ export default function RunwayCalculator() {
               }}
               onBlur={validateCash}
               error={cashError}
+              currency={currency}
               placeholder="500,000"
-              hint={cashNum > 0 ? `= ${formatCurrencyFull(cashNum)}` : ''}
+              hint={cashNum > 0 ? `= ${formatCurrencyFull(cashNum, currency)}` : ''}
             />
 
             <InputField
@@ -198,9 +229,10 @@ export default function RunwayCalculator() {
               }}
               onBlur={validateBurn}
               error={burnError}
+              currency={currency}
               placeholder="50,000"
               suffix="/mo"
-              hint={burnNum > 0 ? `= ${formatCurrencyFull(burnNum)} / month` : ''}
+              hint={burnNum > 0 ? `= ${formatCurrencyFull(burnNum, currency)} / month` : ''}
             />
           </div>
 
@@ -259,6 +291,7 @@ export default function RunwayCalculator() {
               cashNum={cashNum}
               burnNum={burnNum}
               advice={advice}
+              currency={currency}
             />
             {scenarios && (
               <ScenarioCard
@@ -266,6 +299,7 @@ export default function RunwayCalculator() {
                 baseRunway={runway}
                 cashNum={cashNum}
                 burnNum={burnNum}
+                currency={currency}
               />
             )}
           </div>

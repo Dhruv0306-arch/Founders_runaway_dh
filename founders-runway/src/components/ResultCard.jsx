@@ -48,7 +48,7 @@ function RunwayMeter({ runway, status, statusConfig }) {
 
 // ─── Cash Consumption Timeline ───────────────────────────────────────────────
 
-function CashTimeline({ cashNum, burnNum, runway }) {
+function CashTimeline({ cashNum, burnNum, runway, currency }) {
   const isInfinite = runway === Infinity
   if (isInfinite || burnNum === 0 || cashNum === 0) return null
 
@@ -89,7 +89,7 @@ function CashTimeline({ cashNum, burnNum, runway }) {
                   isGone ? 'text-red-500' : 'text-ecell-muted'
                 }`}
               >
-                {isGone ? '— gone —' : formatCurrencyShort(remaining)}
+                {isGone ? '— gone —' : formatCurrencyShort(remaining, currency)}
               </span>
             </div>
           )
@@ -101,7 +101,7 @@ function CashTimeline({ cashNum, burnNum, runway }) {
 
 // ─── Result Card (main export) ───────────────────────────────────────────────
 
-export default function ResultCard({ runway, status, statusConfig, cashNum, burnNum, advice }) {
+export default function ResultCard({ runway, status, statusConfig, cashNum, burnNum, advice, currency }) {
   const isInfinite = runway === Infinity
   const runwayMonths = formatMonths(runway)
   const runwayDays = formatDays(runway)
@@ -187,9 +187,9 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
           {/* Key metric chips */}
           <div className="grid grid-cols-3 gap-3">
             {[
-              { label: 'Cash on Hand', value: formatCurrencyShort(cashNum), icon: '💵' },
-              { label: 'Monthly Burn', value: formatCurrencyShort(burnNum), icon: '🔥' },
-              { label: 'Annual Burn', value: formatCurrencyShort(annualBurn), icon: '📅' },
+              { label: 'Cash on Hand', value: formatCurrencyShort(cashNum, currency), icon: '💵' },
+              { label: 'Monthly Burn', value: formatCurrencyShort(burnNum, currency), icon: '🔥' },
+              { label: 'Annual Burn', value: formatCurrencyShort(annualBurn, currency), icon: '📅' },
             ].map(({ label, value, icon }) => (
               <div
                 key={label}
@@ -206,7 +206,7 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
           <RunwayMeter runway={runway} status={status} statusConfig={statusConfig} />
 
           {/* Cash timeline breakdown */}
-          <CashTimeline cashNum={cashNum} burnNum={burnNum} runway={runway} />
+          <CashTimeline cashNum={cashNum} burnNum={burnNum} runway={runway} currency={currency} />
         </div>
       </div>
 
@@ -239,9 +239,9 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
       {burnNum > 0 && !isInfinite && (
         <div className="mt-6 pt-4 border-t border-ecell-purple/20 grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
-            { label: 'Weekly Burn', value: formatCurrencyShort(burnNum / 4.33) },
-            { label: 'Daily Burn', value: formatCurrencyShort(burnNum / 30.44) },
-            { label: 'Cost Per Day', value: formatCurrencyFull(burnNum / 30.44) },
+            { label: 'Weekly Burn', value: formatCurrencyShort(burnNum / 4.33, currency) },
+            { label: 'Daily Burn', value: formatCurrencyShort(burnNum / 30.44, currency) },
+            { label: 'Cost Per Day', value: formatCurrencyFull(burnNum / 30.44, currency) },
             {
               label: 'Burn Ratio',
               value:

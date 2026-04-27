@@ -2,7 +2,7 @@ import { formatMonths, formatCurrencyShort } from '../utils/formatters.js'
 
 // ─── Individual scenario row ─────────────────────────────────────────────────
 
-function ScenarioRow({ scenario, baseRunway }) {
+function ScenarioRow({ scenario, baseRunway, currency }) {
   const { reduction, newBurn, newRunway, extraMonths, config } = scenario
   const isInfinite = newRunway === Infinity
 
@@ -24,10 +24,10 @@ function ScenarioRow({ scenario, baseRunway }) {
           <div>
             <p className="text-sm font-semibold text-white leading-tight">
               Reduce burn to{' '}
-              <span className={config.textColor}>{formatCurrencyShort(newBurn)}/mo</span>
+              <span className={config.textColor}>{formatCurrencyShort(newBurn, currency)}/mo</span>
             </p>
             <p className="text-xs text-ecell-muted/80 mt-0.5">
-              Save {formatCurrencyShort(scenario.burnNum - newBurn)}/mo ·{' '}
+              Save {formatCurrencyShort(scenario.burnNum - newBurn, currency)}/mo ·{' '}
               <span className={config.textColor}>{config.label}</span>
             </p>
           </div>
@@ -82,7 +82,7 @@ function ScenarioRow({ scenario, baseRunway }) {
 
 // ─── Scenario Card (main export) ─────────────────────────────────────────────
 
-export default function ScenarioCard({ scenarios, baseRunway, cashNum, burnNum }) {
+export default function ScenarioCard({ scenarios, baseRunway, cashNum, burnNum, currency }) {
   // Attach burnNum to each scenario for the savings calculation
   const enriched = scenarios.map((s) => ({ ...s, burnNum }))
 
@@ -118,7 +118,7 @@ export default function ScenarioCard({ scenarios, baseRunway, cashNum, burnNum }
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-white">Current State (Baseline)</p>
           <p className="text-xs text-ecell-muted/80 truncate">
-            {formatCurrencyShort(burnNum)}/mo burn · no changes
+            {formatCurrencyShort(burnNum, currency)}/mo burn · no changes
           </p>
         </div>
         <div className="text-right shrink-0">
@@ -133,12 +133,12 @@ export default function ScenarioCard({ scenarios, baseRunway, cashNum, burnNum }
       {/* Scenario rows */}
       <div className="space-y-3">
         {enriched.map((scenario) => (
-          <ScenarioRow key={scenario.reduction} scenario={scenario} baseRunway={baseRunway} />
+          <ScenarioRow key={scenario.reduction} scenario={scenario} baseRunway={baseRunway} currency={currency} />
         ))}
       </div>
 
       <p className="text-[10px] text-ecell-muted/60 mt-5 text-center tracking-wide">
-        * Assumes cash on hand ({formatCurrencyShort(cashNum)}) and revenue remain constant.
+        * Assumes cash on hand ({formatCurrencyShort(cashNum, currency)}) and revenue remain constant.
         Scenarios model cost-cutting only.
       </p>
     </div>

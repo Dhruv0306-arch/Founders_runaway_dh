@@ -2,18 +2,18 @@
  * Format a number as a short currency string (K/M/B suffixes).
  * Used in compact metric cards.
  */
-export function formatCurrencyShort(value) {
-  if (value === null || value === undefined || isNaN(value)) return '$0'
+export function formatCurrencyShort(value, symbol = '$') {
+  if (value === null || value === undefined || isNaN(value)) return `${symbol}0`
   const abs = Math.abs(value)
   let result
   if (abs >= 1_000_000_000) {
-    result = `$${(abs / 1_000_000_000).toFixed(1)}B`
+    result = `${symbol}${(abs / 1_000_000_000).toFixed(1)}B`
   } else if (abs >= 1_000_000) {
-    result = `$${(abs / 1_000_000).toFixed(1)}M`
+    result = `${symbol}${(abs / 1_000_000).toFixed(1)}M`
   } else if (abs >= 1_000) {
-    result = `$${(abs / 1_000).toFixed(1)}K`
+    result = `${symbol}${(abs / 1_000).toFixed(1)}K`
   } else {
-    result = `$${abs.toFixed(0)}`
+    result = `${symbol}${abs.toFixed(0)}`
   }
   return value < 0 ? `-${result}` : result
 }
@@ -22,14 +22,13 @@ export function formatCurrencyShort(value) {
  * Format a number as a full USD currency string.
  * e.g. 500000 → "$500,000"
  */
-export function formatCurrencyFull(value) {
-  if (value === null || value === undefined || isNaN(value)) return '$0'
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+export function formatCurrencyFull(value, symbol = '$') {
+  if (value === null || value === undefined || isNaN(value)) return `${symbol}0`
+  const formatted = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(value)
+  return `${symbol}${formatted}`
 }
 
 /**
