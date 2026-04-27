@@ -13,7 +13,18 @@ export default {
       },
       colors: {
         slate: {
-          950: '#020617',
+          950: '#000000',
+        },
+        // E-Cell inspired palette
+        ecell: {
+          black: '#000000',
+          dark: '#120a2e',       // Very dark purple (card bg)
+          navy: '#200b6a',       // Deep navy (navbar)
+          purple: '#4526b1',     // Core purple
+          violet: '#4c22e1',     // Vibrant purple
+          lavender: '#7153d9',   // Muted purple
+          muted: '#beb1de',      // Lavender text
+          orange: '#FD562A',     // Primary CTA orange-red
         },
       },
       animation: {

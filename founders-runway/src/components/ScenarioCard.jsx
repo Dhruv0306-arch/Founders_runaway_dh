@@ -26,7 +26,7 @@ function ScenarioRow({ scenario, baseRunway }) {
               Reduce burn to{' '}
               <span className={config.textColor}>{formatCurrencyShort(newBurn)}/mo</span>
             </p>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-ecell-muted/80 mt-0.5">
               Save {formatCurrencyShort(scenario.burnNum - newBurn)}/mo ·{' '}
               <span className={config.textColor}>{config.label}</span>
             </p>
@@ -37,9 +37,9 @@ function ScenarioRow({ scenario, baseRunway }) {
         <div className="text-right shrink-0">
           <div className={`font-mono font-bold text-lg ${config.textColor}`}>
             {isInfinite ? '∞' : formatMonths(newRunway)}
-            <span className="text-xs font-normal text-slate-500 ml-1">mo</span>
+            <span className="text-xs font-normal text-ecell-muted/80 ml-1">mo</span>
           </div>
-          <div className="text-[11px] text-slate-500 mt-0.5">
+          <div className="text-[11px] text-ecell-muted/80 mt-0.5">
             +{isInfinite ? '∞' : formatMonths(extraMonths)} mo gained
           </div>
         </div>
@@ -48,24 +48,24 @@ function ScenarioRow({ scenario, baseRunway }) {
       {/* Comparison bars */}
       <div className="space-y-1.5">
         <div className="flex items-center gap-2">
-          <span className="text-[10px] text-slate-700 w-14 shrink-0 text-right font-mono">
+          <span className="text-[10px] text-ecell-muted/60 w-14 shrink-0 text-right font-mono">
             Current
           </span>
-          <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+          <div className="flex-1 h-1.5 bg-ecell-purple/20 rounded-full overflow-hidden">
             <div
-              className="h-full bg-slate-600 rounded-full"
+              className="h-full bg-ecell-purple/40 rounded-full"
               style={{ width: `${basePct}%` }}
             />
           </div>
-          <span className="text-[10px] text-slate-700 font-mono w-12 shrink-0">
+          <span className="text-[10px] text-ecell-muted/60 font-mono w-12 shrink-0">
             {formatMonths(baseRunway)}m
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[10px] text-slate-500 w-14 shrink-0 text-right font-mono">
+          <span className="text-[10px] text-ecell-muted/80 w-14 shrink-0 text-right font-mono">
             Reduced
           </span>
-          <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+          <div className="flex-1 h-1.5 bg-ecell-purple/20 rounded-full overflow-hidden">
             <div
               className={`h-full ${config.barColor} rounded-full transition-all duration-700`}
               style={{ width: `${newPct}%` }}
@@ -87,7 +87,7 @@ export default function ScenarioCard({ scenarios, baseRunway, cashNum, burnNum }
   const enriched = scenarios.map((s) => ({ ...s, burnNum }))
 
   return (
-    <div className="relative bg-slate-900 rounded-2xl border border-slate-800 p-6 sm:p-10 mb-6 overflow-hidden">
+    <div className="relative bg-ecell-dark rounded-2xl border border-ecell-purple/15 p-6 sm:p-10 mb-6 overflow-hidden">
       {/* Top shimmer — purple for visual distinction */}
       <div
         aria-hidden="true"
@@ -104,29 +104,29 @@ export default function ScenarioCard({ scenarios, baseRunway, cashNum, burnNum }
             SCENARIO{' '}
             <span className="text-gradient-purple">ANALYSIS</span>
           </h3>
-          <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+          <p className="text-xs text-ecell-muted/80 mt-1 leading-relaxed">
             What happens to your runway if you reduce your monthly burn rate?
           </p>
         </div>
       </div>
 
       {/* Base / current state reference */}
-      <div className="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700/40 mb-4">
-        <div className="w-10 h-10 rounded-xl bg-slate-700 flex items-center justify-center shrink-0">
+      <div className="flex items-center gap-4 p-4 rounded-xl bg-ecell-purple/10 border border-ecell-purple/20 mb-4">
+        <div className="w-10 h-10 rounded-xl bg-ecell-purple/40 flex items-center justify-center shrink-0">
           <span className="text-sm">📌</span>
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-white">Current State (Baseline)</p>
-          <p className="text-xs text-slate-500 truncate">
+          <p className="text-xs text-ecell-muted/80 truncate">
             {formatCurrencyShort(burnNum)}/mo burn · no changes
           </p>
         </div>
         <div className="text-right shrink-0">
           <p className="font-mono font-bold text-white text-sm">
             {formatMonths(baseRunway)}
-            <span className="text-xs font-normal text-slate-500 ml-1">mo</span>
+            <span className="text-xs font-normal text-ecell-muted/80 ml-1">mo</span>
           </p>
-          <p className="text-[10px] text-slate-600">runway</p>
+          <p className="text-[10px] text-ecell-muted/60">runway</p>
         </div>
       </div>
 
@@ -137,7 +137,7 @@ export default function ScenarioCard({ scenarios, baseRunway, cashNum, burnNum }
         ))}
       </div>
 
-      <p className="text-[10px] text-slate-700 mt-5 text-center tracking-wide">
+      <p className="text-[10px] text-ecell-muted/60 mt-5 text-center tracking-wide">
         * Assumes cash on hand ({formatCurrencyShort(cashNum)}) and revenue remain constant.
         Scenarios model cost-cutting only.
       </p>

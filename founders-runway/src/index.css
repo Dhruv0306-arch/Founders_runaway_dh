@@ -13,7 +13,7 @@
 
   body {
     font-family: 'Outfit', sans-serif;
-    background-color: #020617;
+    background-color: #000000;
     color: white;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -34,27 +34,27 @@
     width: 5px;
   }
   ::-webkit-scrollbar-track {
-    background: #020617;
+    background: #000000;
   }
   ::-webkit-scrollbar-thumb {
-    background: #1e293b;
+    background: #4526b1;
     border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #334155;
+    background: #7153d9;
   }
 }
 
 @layer utilities {
   /* Subtle dot grid background */
   .bg-dot-pattern {
-    background-image: radial-gradient(circle, rgba(6, 182, 212, 0.08) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(69, 38, 177, 0.12) 1px, transparent 1px);
     background-size: 32px 32px;
   }
 
-  /* Cyan → Emerald gradient text */
+  /* Orange → Purple gradient text (primary branding) */
   .text-gradient-cyan {
-    background: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+    background: linear-gradient(135deg, #FD562A 0%, #7153d9 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -62,13 +62,13 @@
 
   /* Purple accent gradient text */
   .text-gradient-purple {
-    background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+    background: linear-gradient(135deg, #a78bfa 0%, #7153d9 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* Status glow shadows */
+  /* Status glow shadows — UNCHANGED (semantic) */
   .glow-safe {
     box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2), 0 8px 40px rgba(16, 185, 129, 0.08);
   }
@@ -82,8 +82,8 @@
   /* Top border shimmer */
   .border-top-cyan {
     border-top: 1px solid transparent;
-    background-image: linear-gradient(#0f172a, #0f172a),
-      linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.4), transparent);
+    background-image: linear-gradient(#120a2e, #120a2e),
+      linear-gradient(90deg, transparent, rgba(69, 38, 177, 0.4), transparent);
     background-origin: border-box;
     background-clip: padding-box, border-box;
   }

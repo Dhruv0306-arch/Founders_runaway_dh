@@ -26,7 +26,7 @@ function InputField({ label, icon, value, onChange, onBlur, error, hint, placeho
 
   return (
     <div>
-      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2.5">
+      <label className="block text-xs font-semibold text-ecell-muted uppercase tracking-widest mb-2.5">
         {icon} {label}
       </label>
       <div
@@ -34,11 +34,11 @@ function InputField({ label, icon, value, onChange, onBlur, error, hint, placeho
           error
             ? 'border-red-500/50 bg-red-500/5 ring-2 ring-red-500/10'
             : focused
-            ? 'border-cyan-500/50 bg-slate-800 ring-2 ring-cyan-500/10'
-            : 'border-slate-700/60 bg-slate-800/40 hover:border-slate-600'
+            ? 'border-ecell-purple/50 bg-ecell-dark ring-2 ring-ecell-purple/10'
+            : 'border-ecell-purple/20 bg-ecell-dark/40 hover:border-ecell-purple/40'
         }`}
       >
-        <span className="pl-4 text-slate-500 font-mono text-sm font-medium select-none">$</span>
+        <span className="pl-4 text-ecell-lavender font-mono text-sm font-medium select-none">$</span>
         <input
           type="text"
           inputMode="decimal"
@@ -56,12 +56,12 @@ function InputField({ label, icon, value, onChange, onBlur, error, hint, placeho
             onBlur && onBlur()
           }}
           placeholder={placeholder}
-          className="flex-1 bg-transparent px-3 py-4 text-white font-mono text-lg outline-none placeholder:text-slate-700"
+          className="flex-1 bg-transparent px-3 py-4 text-white font-mono text-lg outline-none placeholder:text-ecell-purple/30"
           aria-label={label}
           aria-invalid={!!error}
         />
         {suffix && (
-          <span className="pr-4 text-slate-600 text-xs font-medium font-mono select-none">
+          <span className="pr-4 text-ecell-lavender/60 text-xs font-medium font-mono select-none">
             {suffix}
           </span>
         )}
@@ -77,7 +77,7 @@ function InputField({ label, icon, value, onChange, onBlur, error, hint, placeho
 
       {/* Formatted value hint */}
       {!error && hint && (
-        <p className="text-slate-600 text-xs mt-2 font-mono">{hint}</p>
+        <p className="text-ecell-lavender/50 text-xs mt-2 font-mono">{hint}</p>
       )}
     </div>
   )
@@ -149,7 +149,7 @@ export default function RunwayCalculator() {
       {/* Faint section separator */}
       <div
         aria-hidden="true"
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent to-slate-800"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent to-ecell-purple/20"
       />
 
       <div className="max-w-4xl mx-auto">
@@ -159,18 +159,18 @@ export default function RunwayCalculator() {
             CALCULATE YOUR{' '}
             <span className="text-gradient-cyan">RUNWAY</span>
           </h2>
-          <p className="text-slate-500 text-sm max-w-md mx-auto leading-relaxed">
+          <p className="text-ecell-muted/60 text-sm max-w-md mx-auto leading-relaxed">
             Enter your current financial position and get an instant diagnosis with
             actionable insights.
           </p>
         </div>
 
         {/* ── Input Card ──────────────────────────────────────────────── */}
-        <div className="relative bg-slate-900 rounded-2xl border border-slate-800 p-6 sm:p-10 mb-6 overflow-hidden">
+        <div className="relative bg-ecell-dark rounded-2xl border border-ecell-purple/15 p-6 sm:p-10 mb-6 overflow-hidden">
           {/* Top shimmer line */}
           <div
             aria-hidden="true"
-            className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent"
+            className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-ecell-purple/40 to-transparent"
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
@@ -233,13 +233,13 @@ export default function RunwayCalculator() {
           )}
 
           {/* ── Formula reminder ─────────────────────────── */}
-          <div className="mt-8 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
+          <div className="mt-8 pt-6 border-t border-ecell-purple/15 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-ecell-muted/40">
             <div className="flex items-center gap-2 font-mono">
-              <span className="text-slate-700">Runway (months)</span>
-              <span className="text-slate-700">=</span>
-              <span className="text-slate-500">Total Cash</span>
-              <span className="text-slate-700">÷</span>
-              <span className="text-slate-500">Monthly Burn</span>
+              <span className="text-ecell-muted/30">Runway (months)</span>
+              <span className="text-ecell-muted/30">=</span>
+              <span className="text-ecell-muted/50">Total Cash</span>
+              <span className="text-ecell-muted/30">÷</span>
+              <span className="text-ecell-muted/50">Monthly Burn</span>
             </div>
             <div className="flex items-center gap-4 font-mono">
               <span className="text-emerald-600">🟢 ≥6 mo = Safe</span>

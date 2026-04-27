@@ -11,7 +11,7 @@ function RunwayMeter({ runway, status, statusConfig }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">
+        <span className="text-xs text-ecell-muted/80 font-medium uppercase tracking-wider">
           Runway Meter
         </span>
         <span className={`text-xs font-mono font-semibold ${statusConfig.textColor}`}>
@@ -20,7 +20,7 @@ function RunwayMeter({ runway, status, statusConfig }) {
       </div>
 
       {/* Bar track */}
-      <div className="relative h-2.5 bg-slate-800 rounded-full overflow-hidden">
+      <div className="relative h-2.5 bg-ecell-purple/20 rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full animate-fill-bar transition-all duration-1000 ease-out ${statusConfig.barColor}`}
           style={{ width: `${pct}%` }}
@@ -37,8 +37,8 @@ function RunwayMeter({ runway, status, statusConfig }) {
             className="absolute flex flex-col items-center"
             style={{ left: `${(mo / 24) * 100}%`, transform: 'translateX(-50%)' }}
           >
-            <div className="w-px h-1.5 bg-slate-700" />
-            <span className="text-[9px] text-slate-700 mt-0.5 font-mono">{mo}m</span>
+            <div className="w-px h-1.5 bg-ecell-purple/40" />
+            <span className="text-[9px] text-ecell-muted/60 mt-0.5 font-mono">{mo}m</span>
           </div>
         ))}
       </div>
@@ -56,7 +56,7 @@ function CashTimeline({ cashNum, burnNum, runway }) {
 
   return (
     <div>
-      <p className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-3">
+      <p className="text-xs text-ecell-muted/80 font-medium uppercase tracking-wider mb-3">
         Cash Remaining Over Time
       </p>
       <div className="space-y-2.5">
@@ -67,16 +67,16 @@ function CashTimeline({ cashNum, burnNum, runway }) {
 
           return (
             <div key={month} className="flex items-center gap-3">
-              <span className="text-[10px] text-slate-600 font-mono w-12 shrink-0">
+              <span className="text-[10px] text-ecell-muted/60 font-mono w-12 shrink-0">
                 Mo {month}
               </span>
-              <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+              <div className="flex-1 h-1.5 bg-ecell-purple/20 rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-700 ${
                     isGone
-                      ? 'bg-slate-700'
+                      ? 'bg-ecell-purple/30'
                       : pct > 50
-                      ? 'bg-slate-400'
+                      ? 'bg-ecell-muted'
                       : pct > 20
                       ? 'bg-amber-500/60'
                       : 'bg-red-500/60'
@@ -86,7 +86,7 @@ function CashTimeline({ cashNum, burnNum, runway }) {
               </div>
               <span
                 className={`text-[10px] font-mono w-16 text-right shrink-0 ${
-                  isGone ? 'text-red-500' : 'text-slate-400'
+                  isGone ? 'text-red-500' : 'text-ecell-muted'
                 }`}
               >
                 {isGone ? '— gone —' : formatCurrencyShort(remaining)}
@@ -119,7 +119,7 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
 
   return (
     <div
-      className={`relative bg-slate-900 rounded-2xl border p-6 sm:p-10 mb-6 overflow-hidden transition-all duration-500 ${statusConfig.borderColor} ${statusConfig.glowClass}`}
+      className={`relative bg-ecell-dark rounded-2xl border p-6 sm:p-10 mb-6 overflow-hidden transition-all duration-500 ${statusConfig.borderColor} ${statusConfig.glowClass}`}
     >
       {/* Status top border shimmer */}
       <div
@@ -159,12 +159,12 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
             </div>
           </div>
 
-          <p className="text-slate-400 text-sm font-medium mb-2 leading-none">
+          <p className="text-ecell-muted text-sm font-medium mb-2 leading-none">
             {isInfinite ? 'Infinite Runway' : 'Months of Runway'}
           </p>
 
           {!isInfinite && (
-            <p className="text-slate-600 text-xs font-mono mb-4">
+            <p className="text-ecell-muted/60 text-xs font-mono mb-4">
               ≈ {runwayDays} days until zero
             </p>
           )}
@@ -177,7 +177,7 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
           </div>
 
           {/* Status description */}
-          <p className="text-slate-500 text-xs mt-2 max-w-[180px] leading-relaxed">
+          <p className="text-ecell-muted/80 text-xs mt-2 max-w-[180px] leading-relaxed">
             {statusConfig.description}
           </p>
         </div>
@@ -193,11 +193,11 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
             ].map(({ label, value, icon }) => (
               <div
                 key={label}
-                className="bg-slate-800/60 border border-slate-700/40 rounded-xl p-3 text-center"
+                className="bg-ecell-purple/10 border border-ecell-purple/20 rounded-xl p-3 text-center"
               >
                 <div className="text-base mb-1">{icon}</div>
                 <div className="font-mono font-semibold text-white text-sm">{value}</div>
-                <div className="text-[10px] text-slate-600 mt-0.5 leading-tight">{label}</div>
+                <div className="text-[10px] text-ecell-muted/60 mt-0.5 leading-tight">{label}</div>
               </div>
             ))}
           </div>
@@ -212,10 +212,10 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
 
       {/* ── Advice section ────────────────────────────────────────── */}
       {advice && advice.length > 0 && (
-        <div className="mt-8 pt-8 border-t border-slate-800">
+        <div className="mt-8 pt-8 border-t border-ecell-purple/20">
           <div className="flex items-center gap-2 mb-4">
             <span className="text-base">💡</span>
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+            <h3 className="text-xs font-bold text-ecell-lavender uppercase tracking-widest">
               Strategic Advice for Your Situation
             </h3>
           </div>
@@ -228,7 +228,7 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
                 <span className={`text-xs ${statusConfig.textColor} mt-0.5 shrink-0 font-bold`}>
                   →
                 </span>
-                <span className="text-sm text-slate-300 leading-relaxed">{tip}</span>
+                <span className="text-sm text-ecell-muted leading-relaxed">{tip}</span>
               </div>
             ))}
           </div>
@@ -237,7 +237,7 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
 
       {/* ── Burn rate insight footer ──────────────────────────────── */}
       {burnNum > 0 && !isInfinite && (
-        <div className="mt-6 pt-4 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="mt-6 pt-4 border-t border-ecell-purple/20 grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
             { label: 'Weekly Burn', value: formatCurrencyShort(burnNum / 4.33) },
             { label: 'Daily Burn', value: formatCurrencyShort(burnNum / 30.44) },
@@ -251,8 +251,8 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
             },
           ].map(({ label, value }) => (
             <div key={label} className="text-center">
-              <div className="font-mono text-sm text-slate-300 font-medium">{value}</div>
-              <div className="text-[10px] text-slate-600 mt-0.5">{label}</div>
+              <div className="font-mono text-sm text-white font-medium">{value}</div>
+              <div className="text-[10px] text-ecell-muted/60 mt-0.5">{label}</div>
             </div>
           ))}
         </div>
