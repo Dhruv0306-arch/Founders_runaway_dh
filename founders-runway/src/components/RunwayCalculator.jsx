@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react'
-import { Wallet, Flame, TrendingUp, ChevronDown, CheckCircle2, AlertTriangle, AlertCircle, Calculator } from 'lucide-react'
+import { Wallet, Flame, TrendingUp, ChevronDown, CheckCircle2, AlertTriangle, AlertCircle, Calculator, Zap, RotateCcw } from 'lucide-react'
 import ResultCard from './ResultCard.jsx'
 import ScenarioCard from './ScenarioCard.jsx'
 import FundingGoalCard from './FundingGoalCard.jsx'
@@ -96,6 +96,12 @@ const CURRENCIES = [
   { code: 'CNY', symbol: '¥', flag: 'CN', name: 'Chinese Yuan' },
 ]
 
+const PRESETS = [
+  { label: 'Pre-Seed', cash: '250000', burn: '40000', revenue: '0', desc: '$250K raised, $40K/mo burn' },
+  { label: 'Series A', cash: '3000000', burn: '200000', revenue: '50000', desc: '$3M raised, $200K burn, $50K rev' },
+  { label: 'Bootstrapped', cash: '80000', burn: '15000', revenue: '10000', desc: '$80K saved, $15K burn, $10K rev' },
+]
+
 // ─── Main Calculator ──────────────────────────────────────────────────────────
 
 export default function RunwayCalculator() {
@@ -119,6 +125,24 @@ export default function RunwayCalculator() {
   const [cashError, setCashError] = useState('')
   const [burnError, setBurnError] = useState('')
   const [revenueError, setRevenueError] = useState('')
+
+  function applyPreset(preset) {
+    setCashRaw(preset.cash)
+    setBurnRaw(preset.burn)
+    setRevenueRaw(preset.revenue)
+    setCashError('')
+    setBurnError('')
+    setRevenueError('')
+  }
+
+  function resetAll() {
+    setCashRaw('')
+    setBurnRaw('')
+    setRevenueRaw('')
+    setCashError('')
+    setBurnError('')
+    setRevenueError('')
+  }
 
   const cashNum = useMemo(() => parseInputValue(cashRaw), [cashRaw])
   const burnNum = useMemo(() => parseInputValue(burnRaw), [burnRaw])
@@ -240,8 +264,23 @@ export default function RunwayCalculator() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           
           {/* LEFT COLUMN: Controls & Inputs */}
-          <div className="lg:col-span-4 space-y-6">
+          <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24 lg:self-start">
             
+            {/* Quick Presets */}
+            <div className="flex gap-2">
+              {PRESETS.map((p) => (
+                <button
+                  key={p.label}
+                  onClick={() => applyPreset(p)}
+                  title={p.desc}
+                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-white/5 bg-[#120a2e]/40 text-[11px] font-semibold text-ecell-muted/80 hover:text-white hover:border-ecell-orange/30 hover:bg-ecell-orange/5 transition-all duration-200 group"
+                >
+                  <Zap className="w-3 h-3 text-ecell-orange/50 group-hover:text-ecell-orange transition-colors" />
+                  {p.label}
+                </button>
+              ))}
+            </div>
+
             <div className="bg-[#120a2e]/40 border border-white/5 rounded-2xl p-6 sm:p-8">
               <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 flex items-center gap-2">
                 <Calculator className="w-4 h-4 text-ecell-orange" /> Baseline Metrics
@@ -333,11 +372,20 @@ export default function RunwayCalculator() {
                 </div>
               )}
 
-              {/* Formula */}
-              <div className="mt-8 pt-6 border-t border-white/5">
+              {/* Formula + Reset */}
+              <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between">
                 <div className="flex flex-wrap items-center gap-1.5 text-[10px] font-mono text-ecell-muted/40">
                   <span>Runway</span><span>=</span><span className="text-ecell-muted/60">Cash</span><span>÷</span><span className="text-ecell-muted/60">(Burn - Rev)</span>
                 </div>
+                {hasInput && (
+                  <button
+                    onClick={resetAll}
+                    className="flex items-center gap-1 text-[10px] text-ecell-muted/50 hover:text-red-400 transition-colors font-medium"
+                  >
+                    <RotateCcw className="w-3 h-3" />
+                    Reset
+                  </button>
+                )}
               </div>
             </div>
 

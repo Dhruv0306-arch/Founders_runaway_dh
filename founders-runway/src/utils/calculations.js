@@ -151,3 +151,29 @@ export function getReductionTips(percentage) {
   }
   return tips[percentage] || []
 }
+
+/**
+ * Calculate the calendar date when cash hits zero.
+ * Returns a formatted string like "September 14, 2026" or null if infinite/zero.
+ */
+export function getRunwayEndDate(runwayMonths) {
+  if (
+    runwayMonths === null ||
+    runwayMonths === undefined ||
+    runwayMonths === Infinity ||
+    runwayMonths <= 0 ||
+    isNaN(runwayMonths)
+  ) {
+    return null
+  }
+
+  const now = new Date()
+  const totalDays = Math.floor(runwayMonths * 30.44)
+  const endDate = new Date(now.getTime() + totalDays * 24 * 60 * 60 * 1000)
+
+  return endDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+}

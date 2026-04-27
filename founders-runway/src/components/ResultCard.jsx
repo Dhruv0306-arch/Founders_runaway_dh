@@ -1,6 +1,46 @@
-import { Wallet, Flame, TrendingUp, LineChart, Lightbulb, ChevronRight, CalendarDays } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { Wallet, Flame, TrendingUp, LineChart, Lightbulb, ChevronRight, CalendarDays, CalendarClock } from 'lucide-react'
 import { formatMonths, formatDays, formatCurrencyShort, formatCurrencyFull } from '../utils/formatters.js'
+import { getRunwayEndDate } from '../utils/calculations.js'
 import RunwayChart from './RunwayChart.jsx'
+
+// ─── Animated Count-Up Hook ──────────────────────────────────────────────────
+
+function useCountUp(target, duration = 1200) {
+  const [value, setValue] = useState(0)
+  const prevTarget = useRef(0)
+
+  useEffect(() => {
+    if (target === null || target === undefined || target === Infinity) {
+      setValue(target)
+      return
+    }
+
+    const start = prevTarget.current
+    const diff = target - start
+    const startTime = performance.now()
+
+    function tick(now) {
+      const elapsed = now - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setValue(start + diff * eased)
+
+      if (progress < 1) {
+        requestAnimationFrame(tick)
+      } else {
+        setValue(target)
+        prevTarget.current = target
+      }
+    }
+
+    requestAnimationFrame(tick)
+    return () => { prevTarget.current = target }
+  }, [target, duration])
+
+  return value
+}
 
 // ─── Runway Meter ─────────────────────────────────────────────────────────────
 
@@ -105,8 +145,10 @@ function CashTimeline({ cashNum, burnNum, runway, currency }) {
 
 export default function ResultCard({ runway, status, statusConfig, cashNum, burnNum, revenueNum = 0, advice, currency }) {
   const isInfinite = runway === Infinity
-  const runwayMonths = formatMonths(runway)
+  const animatedRunway = useCountUp(isInfinite ? null : runway)
+  const runwayMonths = isInfinite ? '∞' : formatMonths(animatedRunway)
   const runwayDays = formatDays(runway)
+  const deadlineDate = getRunwayEndDate(runway)
 
   const netBurn = Math.max(0, burnNum - revenueNum)
   const annualBurn = netBurn * 12
@@ -153,9 +195,18 @@ export default function ResultCard({ runway, status, statusConfig, cashNum, burn
           </p>
 
           {!isInfinite && (
-            <p className="text-ecell-muted/60 text-xs font-mono mb-4">
+            <p className="text-ecell-muted/60 text-xs font-mono mb-2">
               ≈ {runwayDays} days until zero
             </p>
+          )}
+
+          {deadlineDate && (
+            <div className="flex items-center gap-1.5 mb-4">
+              <CalendarClock className="w-3.5 h-3.5 text-ecell-muted/50" />
+              <p className="text-ecell-muted/80 text-xs">
+                Cash out by <span className={`font-semibold ${statusConfig.textColor}`}>{deadlineDate}</span>
+              </p>
+            </div>
           )}
 
           {/* Urgency line */}
