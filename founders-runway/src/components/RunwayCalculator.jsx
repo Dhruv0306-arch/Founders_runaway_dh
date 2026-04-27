@@ -97,9 +97,9 @@ const CURRENCIES = [
 ]
 
 const PRESETS = [
-  { label: 'Pre-Seed', cash: '250000', burn: '40000', revenue: '0', desc: '$250K raised, $40K/mo burn' },
-  { label: 'Series A', cash: '3000000', burn: '200000', revenue: '50000', desc: '$3M raised, $200K burn, $50K rev' },
-  { label: 'Bootstrapped', cash: '80000', burn: '15000', revenue: '10000', desc: '$80K saved, $15K burn, $10K rev' },
+  { label: 'Pre-Seed', cash: '250000', burn: '40000', revenue: '0', desc: '$250K raised, $40K/mo burn', explanation: 'Early startup stage where founders are validating the idea and building the first version of the product.' },
+  { label: 'Series A', cash: '3000000', burn: '200000', revenue: '50000', desc: '$3M raised, $200K burn, $50K rev', explanation: 'Growth stage where the startup has traction and is raising money to scale product, team, and revenue.' },
+  { label: 'Bootstrapped', cash: '80000', burn: '15000', revenue: '10000', desc: '$80K saved, $15K burn, $10K rev', explanation: 'A startup funded without outside investors, usually using founder money, revenue, or personal savings.' },
 ]
 
 // ─── Main Calculator ──────────────────────────────────────────────────────────
@@ -109,6 +109,7 @@ export default function RunwayCalculator() {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
   const dropdownRef = useRef(null)
   const resultsRef = useRef(null)
+  const [hoveredPreset, setHoveredPreset] = useState(null)
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -275,18 +276,43 @@ export default function RunwayCalculator() {
           <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24 lg:self-start">
             
             {/* Quick Presets */}
-            <div className="flex gap-2">
-              {PRESETS.map((p) => (
-                <button
-                  key={p.label}
-                  onClick={() => applyPreset(p)}
-                  title={p.desc}
-                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-white/5 bg-[#120a2e]/40 text-[11px] font-semibold text-ecell-muted/80 hover:text-white hover:border-ecell-orange/30 hover:bg-ecell-orange/5 transition-all duration-200 group"
-                >
-                  <Zap className="w-3 h-3 text-ecell-orange/50 group-hover:text-ecell-orange transition-colors" />
-                  {p.label}
-                </button>
-              ))}
+            <div>
+              <div className="flex gap-2">
+                {PRESETS.map((p) => (
+                  <button
+                    key={p.label}
+                    onClick={() => applyPreset(p)}
+                    onMouseEnter={() => setHoveredPreset(p.label)}
+                    onMouseLeave={() => setHoveredPreset(null)}
+                    onTouchStart={() => setHoveredPreset(hoveredPreset === p.label ? null : p.label)}
+                    className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-white/5 bg-[#120a2e]/40 text-[11px] font-semibold text-ecell-muted/80 hover:text-white hover:border-ecell-orange/30 hover:bg-ecell-orange/5 transition-all duration-200 group"
+                  >
+                    <Zap className="w-3 h-3 text-ecell-orange/50 group-hover:text-ecell-orange transition-colors" />
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Expanding explanation bar */}
+              <div
+                className={`overflow-hidden transition-all duration-300 ease-out ${
+                  hoveredPreset ? 'max-h-24 opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'
+                }`}
+              >
+                {PRESETS.filter((p) => p.label === hoveredPreset).map((p) => (
+                  <div
+                    key={p.label}
+                    className="flex items-start gap-2.5 px-3.5 py-2.5 rounded-xl bg-ecell-purple/8 border border-ecell-purple/15"
+                  >
+                    <AlertCircle className="w-3.5 h-3.5 text-ecell-lavender/70 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="text-[11px] font-semibold text-ecell-lavender/90">{p.label}</span>
+                      <span className="text-ecell-muted/50 mx-1.5">—</span>
+                      <span className="text-[11px] text-ecell-muted/70 leading-relaxed">{p.explanation}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="bg-[#120a2e]/40 border border-white/5 rounded-2xl p-6 sm:p-8">
